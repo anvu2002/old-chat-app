@@ -1,16 +1,9 @@
-## Running locally client project.
-cd client
-
+## Client 
 npm install
+npm run dev
 
-yarn dev
-
-## Running locally server project.
-cd server
-
+## Server
 npm install
-
-yarn dev
-
+npm start
 
 
