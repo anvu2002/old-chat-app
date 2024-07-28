@@ -1,10 +1,10 @@
 require('dotenv').config();
-
 const { Server } = require('socket.io');
 const { createServer } = require('http');
+const mongoose = require('mongoose');
 const SessionStore = require('./SessionStore');
 const MessageStore = require('./MessageStore');
-const { instrument } = require("@socket.io/admin-ui");
+// const { instrument } = require("@socket.io/admin-ui");
 
 const messageStore = new MessageStore();
 const sessionStore = new SessionStore();
@@ -16,9 +16,13 @@ const io = new Server(httpServer, {
     }
 });
 
-instrument(io, {
-    auth: false,
-    mode: "development",
+// instrument(io, {
+//     auth: false,
+//     mode: "development",
+// });
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 io.use(async (socket, next) => {
@@ -117,5 +121,6 @@ io.on('connection', async (socket) => {
     });
 });
 
-httpServer.listen(3001);
-console.log("server started on 3001")
+httpServer.listen(3001, () => {
+  console.log('server started on port 3001');
+});
